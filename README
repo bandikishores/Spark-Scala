@@ -1,0 +1,9 @@
+To Compile:
+sbt assembly
+
+Compatible Version:
+Scala - scala-2.11.8
+Spark - spark-2.1.1-bin-hadoop2.7
+
+TO Run :
+spark-submit --class com.bandi.SparkMainObject target/scala-2.11/bandi-spark-work-assembly-1.0.jar act 
