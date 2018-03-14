@@ -1,17 +1,15 @@
 package com.bandi
 
-import kafka.serializer.StringDecoder
-import org.apache.spark.streaming.kafka.KafkaUtils
-import org.apache.spark.streaming.{ Seconds, StreamingContext }
-import org.apache.spark.{ SparkConf, SparkContext }
-import java.util.Scanner
+
+
+import org.apache.spark.SparkConf
+import org.apache.spark.streaming.Seconds
+import org.apache.spark.streaming.StreamingContext
 
 /**
  * Created by bandi.kishore on 3/12/18.
  */
 object SparkMainObject {
-
-  var topic = Set("Test_Event")
   
   var ssc: StreamingContext = null;
 
@@ -24,24 +22,20 @@ object SparkMainObject {
   }
 
   def applyOnKafka(jobName: String) = {
-
-    /* conf.set("es.index.auto.create", "true")
-    conf.set("es.nodes", esNode)
-    conf.set("es.port", esPort)*/
-    
+    /*
     new Thread(new Runnable {
       def run() {
         spawnThreadAndAwait()
       }
-    }).start()
+    }).start()*/
     
-    startSSC()
+    startSSC(jobName)
   }
-    def startSSC() = {
+    def startSSC(jobName: String) = {
     val conf = new SparkConf()
       .setAppName("myJob")
-    ssc = new StreamingContext(conf, Seconds(5))
-      KafkaSparkDirectStreams.applyTransformations(ssc, topic)
+    ssc = new StreamingContext(conf, Seconds(10))
+      KafkaSparkDirectStreams.applyTransformations(ssc, Set(jobName))
       
       
         println("Kish - Starting");
@@ -64,12 +58,12 @@ object SparkMainObject {
         KafkaSparkDirectStreams.applyTransformations(ssc, Set(str));
         println("Exiting "+str);
         */
-    Thread.sleep(5000)
-    topic = topic++Set(str)
-        ssc.stop(true, true);
-        println("Kish - Restarted");
-        println("topics added : " + topic)
-        startSSC();
+//    Thread.sleep(5000)
+//    topic = topic++Set(str)
+//        ssc.stop(true, true);
+//        println("Kish - Restarted");
+//        println("topics added : " + topic)
+//        startSSC();
         println("Kish - Restart Completed");
      /* }
       println("Was this entered " + str)

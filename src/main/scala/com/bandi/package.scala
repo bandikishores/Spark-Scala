@@ -3,6 +3,8 @@ package com
 import java.util
 
 import scala.concurrent.Future
+import kafka.serializer.StringDecoder
+import org.apache.kafka.common.serialization.StringDeserializer
 
 /**
   * Created by bandi.kishore on 3/12/18.
@@ -81,10 +83,13 @@ package object bandi {
 
   val bootstrapServers = "localhost:9092"
 
-  val kafkaParams = Map[String, String](
-    "auto.offset.reset" -> "smallest",
+  val kafkaParams = Map[String, Object](
+    "auto.offset.reset" -> "earliest",
     "bootstrap.servers" -> bootstrapServers,
-    "enable.auto.commit" -> "true"
+    "enable.auto.commit" -> (false: java.lang.Boolean),
+  "group.id" -> "bandi-group",
+  "key.deserializer" -> classOf[StringDeserializer],
+  "value.deserializer" -> classOf[StringDeserializer]
   )
 
   val monitoringUrl = "http://dp-event-registry.swiggyint.in/event-checkpoint"
@@ -121,6 +126,6 @@ package object bandi {
     val driver = "com.mysql.jdbc.Driver"
   }
 
- val topic = Set("TestEvent")
+ // val topic = Set("TestEvent","Test_Add_Event") : Passed from Run program
 
 }

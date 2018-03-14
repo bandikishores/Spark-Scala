@@ -15,10 +15,7 @@ credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 resolvers += "Local Maven Repository" at "file:///"+ Path.userHome + "/.m2/repository"
 
 libraryDependencies  ++= Seq(
-  "org.apache.spark" % "spark-core_2.11" % "2.1.0",
-  "org.apache.spark" % "spark-streaming_2.11" % "2.1.0",
-  "org.apache.spark" % "spark-streaming-kafka-0-8_2.11" % "2.2.0",
-  "org.apache.kafka" % "kafka-clients" % "0.11.0.2",
+  "org.apache.spark" % "spark-streaming-kafka-0-10_2.11" % "2.2.0",
   "org.elasticsearch" % "elasticsearch-spark-20_2.11" % "5.3.1" exclude("org.slf4j", "log4j-over-slf4j"),
   "org.apache.spark" % "spark-sql_2.11" % "2.1.0",
   "org.lyranthe.prometheus" %% "client" % "0.8.4",
@@ -28,7 +25,6 @@ libraryDependencies  ++= Seq(
   "org.scalaz" %% "scalaz-core" % "7.2.15",
   "mysql" % "mysql-connector-java" % "5.1.24",
   "org.scalaz" %% "scalaz-core" % "7.2.15",
-  "com.swiggy.dp_models" % "dp-domain-models" % "0.0.65-RELEASE",
   "com.101tec" % "zkclient" % "0.8",
   "org.apache.zookeeper" % "zookeeper" % "3.4.5"
 )

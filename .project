@@ -1,5 +1,5 @@
 <projectDescription>
-  <name>TestScala</name>
+  <name>bandi-spark-work</name>
   <buildSpec>
     <buildCommand>
       <name>org.scala-ide.sdt.core.scalabuilder</name>
