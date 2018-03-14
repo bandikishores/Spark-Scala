@@ -33,9 +33,9 @@ object KafkaSparkDirectStreams {
   def readFromKafka(ssc: StreamingContext)(topic: String): DStream[ConsumerRecord[String, String]] = {
  val offset = offsetStore.readOffsets(topic)
     val messages = offset match {
-      case None => KafkaUtils.createDirectStream[String, String](ssc, LocationStrategies.PreferConsistent, Subscribe[String, String](Set(topic), kafkaParams)).persist()
+      case None => KafkaUtils.createDirectStream[String, String](ssc, LocationStrategies.PreferConsistent, Subscribe[String, String](Set(topic), kafkaParams))
       case Some(offsetValues) => 
-        KafkaUtils.createDirectStream[String, String](ssc,  LocationStrategies.PreferConsistent, Subscribe[String, String](Set(topic), kafkaParams, offsetValues)).persist()
+        KafkaUtils.createDirectStream[String, String](ssc,  LocationStrategies.PreferConsistent, Subscribe[String, String](Set(topic), kafkaParams, offsetValues))
     } 
  println("Completed create Steam")
     messages.foreachRDD(rdd => {  // Side effect to store offsets
@@ -58,9 +58,10 @@ object KafkaSparkDirectStreams {
    */
   def applyTransformations(ssc: StreamingContext, topicMap: Set[String]) = {
     val kafkaReader = readFromKafka(ssc) _
+    
     topicMap.foreach(topic => {
       println("Submitted topic: " + topic + "from thread: " + Thread.currentThread().getId)
-      applyTransformationOnMessagesForATopic(kafkaReader(topic).map(r => (r.key(),r.value())).map(_._2), topic, ssc)
+      applyTransformationOnMessagesForATopic(kafkaReader(topic).map(_.value()), topic, ssc)
     })
   }
 
@@ -80,8 +81,6 @@ object KafkaSparkDirectStreams {
    */
   def updateAccumulators(sc: SparkContext, rdd: RDD[String]) = {
     //PrometheusWriter.pushCountMetricToPrometheus(acc)
-    var count = 0;
-    println("Count " + 1 + " topics(s) totally")
-    rdd.foreach(t => count+1)
+    rdd.foreach(t => "Value read is : " + t)
   }
 }
