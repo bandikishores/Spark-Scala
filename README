@@ -7,3 +7,20 @@ Spark - spark-2.1.1-bin-hadoop2.7
 
 TO Run :
 spark-submit --class com.bandi.SparkMainObject target/scala-2.11/bandi-spark-work-assembly-1.0.jar Test_Event
+
+For Mesos Cluster:
+a) Start Master
+		/usr/local/sbin/mesos-master --registry=in_memory --ip=127.0.0.1 --zk=zk://localhost:2181/jpoint-mesos --work_dir=/tmp/mesos
+	b) Start Mesos agent
+		/usr/local/sbin/mesos-agent --master=127.0.0.1:5050 --work_dir=/tmp/mesos
+	c) Mesos UI
+		http://127.0.0.1:5050
+	d) Start Slaves	
+		i) Single Slave	
+			/usr/local/sbin/mesos-slave --master=zk://localhost:2181/jpoint-mesos
+		ii) Multi Slave
+			/usr/local/sbin/mesos-slave --master=zk://localhost:2181/jpoint-mesos --port=5052 --work_dir=/tmp/mesos2
+			/usr/local/sbin/mesos-slave --master=zk://localhost:2181/jpoint-mesos --port=5053 --work_dir=/tmp/mesos3
+
+b) To Run
+spark-submit --class com.bandi.SparkMainObject --master mesos://localhost:5050 --num-executors 2 --driver-memory 1g --executor-memory 1g target/scala-2.11/bandi-spark-work-assembly-1.0.jar Test_Event
